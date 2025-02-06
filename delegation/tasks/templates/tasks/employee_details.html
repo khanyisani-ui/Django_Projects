@@ -1,0 +1,61 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+    <h1>Employee Details: {{ employee.user.username }}</h1>
+
+    <div class="container mt-4">
+
+        <div class="row">  {# Row for Attendance #}
+            <div class="col-md-12">  {# Attendance takes full width #}
+                <h2>Attendance</h2>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance in attendances %}
+                            <tr>
+                                <td>{{ attendance.date }}</td>
+                                <td>{{ attendance.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>  {# Close col for Attendance #}
+        </div>  {# Close row for Attendance #}
+
+        <div class="row mt-4">  {# New row for Progress #}
+            <div class="col-md-12">  {# Progress takes full width #}
+                <h2>Progress</h2>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Date</th>
+                            <th>Percentage</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for progress in progresses %}
+                            <tr>
+                                <td>{{ progress.assignment.title }}</td>
+                                <td>{{ progress.date }}</td>
+                                <td>{{ progress.percentage }}%</td>
+                                <td>{{ progress.details }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>  {# Close col for Progress #}
+        </div>  {# Close row for Progress #}
+
+       
+
+        <a href="{% url 'manager_dashboard' %}" class="btn btn-primary mt-3">Back to Dashboard</a>
+
+    </div>  {# End of container #}
+{% endblock %}

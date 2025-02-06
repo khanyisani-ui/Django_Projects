@@ -1,0 +1,28 @@
+{% extends "tasks/base.html" %}
+
+{% block title %}
+    <title>Update Assignment Status</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Update Status for {{ assignment.title }}</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="card">
+            <div class="card-body">
+                {{ form.as_p }}  {# Render the form fields #}
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{% url 'employee_dashboard' %}" class="btn btn-secondary ms-2">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

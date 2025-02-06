@@ -1,0 +1,57 @@
+{% extends "tasks/base.html" %}  
+
+{% block content %}
+    <section class="hero bg-primary text-light py-5">  {# Hero section #}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto text-center">
+                    <h1>Welcome to the Task Delegation Platform</h1>
+                    <p class="lead">
+                        Streamline task management, monitor employee performance, and meet project deadlines efficiently—all in one centralized system.
+                    </p>
+                    <a href="{% url 'login' %}" class="btn btn-lg btn-warning">Access Your Dashboard</a>  {# Clear call to action #}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features py-5">  {# Features section #}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-box text-center">
+                        <i class="fas fa-tasks fa-3x mb-3"></i>  {# Icon for tasks #}
+                        <h3>Effortless Task Management</h3>
+                        <p>Create, assign, and track tasks with ease.  Keep your team organized and focused on what matters most.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box text-center">
+                        <i class="fas fa-chart-line fa-3x mb-3"></i>  {# Icon for progress #}
+                        <h3>Real-Time Progress Tracking</h3>
+                        <p>Monitor project progress at a glance. Identify bottlenecks and ensure timely completion of milestones.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box text-center">
+                        <i class="fas fa-calendar-alt fa-3x mb-3"></i>  {# Icon for schedule #}
+                        <h3>Efficient Scheduling & Deadlines</h3>
+                        <p>Set clear deadlines and automate reminders.  Never miss a critical date again.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta bg-secondary py-5">  {# Call to action section #}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto text-center">
+                    <h2>Ready to Get Started?</h2>
+                    <p>Empower your team and boost productivity today.</p>
+                    <a href="{% url 'login' %}" class="btn btn-lg btn-warning">Access Your Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+    <h1>Attendance</h1>
+
+    {% if is_manager %}  {# Manager View (No message for managers) #}
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Employee</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attendance in attendances %}
+                    <tr>
+                        <td>{{ attendance.date }}</td>
+                        <td>{{ attendance.employee.user.username }}</td>
+                        <td>{{ attendance.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}  {# Employee View #}
+        {% if attendance and attendance.status == 'present' %}
+            <div class="alert alert-info fade-out">  {# Add fade-out class #}
+                Your attendance for today has already been recorded.
+            </div>
+        {% elif attendance and attendance.status == 'absent' %}
+            <div class="alert alert-warning fade-out">
+                Your attendance for today is marked as absent.
+            </div>
+        {% endif %}
+
+        <h3 class="mt-3">Attendance History</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for att in attendances %}
+                    <tr>
+                        <td>{{ att.date }}</td>
+                        <td>{{ att.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if not attendance %}  {# Show the form if no attendance recorded yet #}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="mark_attendance" class="btn btn-primary">Mark Attendance</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <a href="{% url 'manager_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+
+    <style>
+        .fade-out {
+            opacity: 1;
+            transition: opacity 1s ease-in-out; /* Adjust duration as needed */
+        }
+
+        .fade-out.hidden {
+            opacity: 0;
+        }
+    </style>
+
+    <script>
+        const fadeOutElements = document.querySelectorAll('.fade-out');
+
+        fadeOutElements.forEach(element => {
+            setTimeout(() => {
+                element.classList.add('hidden'); // Trigger fade-out
+                setTimeout(() => {
+                    element.remove(); // Remove element after transition
+                }, 1000); // Match transition duration
+            }, 3000); // Delay before fade-out (3 seconds)
+        });
+    </script>
+{% endblock %}

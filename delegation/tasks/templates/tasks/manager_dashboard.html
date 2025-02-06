@@ -1,0 +1,80 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Manager Dashboard</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <h2>Assignments</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Employee</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                <tr>
+                    <td><a href="{% url 'employee_details' assignment.employee.pk %}">{{ assignment.employee.user.username }}</a></td>
+                    <td>{{ assignment.title }}</td>
+                    <td>{{ assignment.description }}</td>
+                    <td>{{ assignment.deadline }}</td>
+                    <td>{{ assignment.status|capfirst }}</td>
+                    <td>
+                        <a href="{% url 'update_assignment' assignment.pk %}" class="btn btn-sm btn-primary">Update</a>
+                        <a href="{% url 'delete_assignment' assignment.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No assignments found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Employees</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td><a href="{% url 'employee_details' employee.pk %}">{{ employee.user.username }}</a></td>
+                    <td>{{ employee.role|capfirst }}</td>
+                    <td>
+                        <a href="{% url 'update_employee' employee.pk %}" class="btn btn-sm btn-primary">Update</a>
+                        <a href="{% url 'delete_employee' employee.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No employees found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'create_assignment' %}" class="btn btn-success">Create Assignment</a>
+    <a href="{% url 'create_employee' %}" class="btn btn-info ms-2">Add Employee</a>
+</div>
+{% endblock %}

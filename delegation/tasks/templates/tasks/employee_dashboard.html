@@ -1,0 +1,80 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+    <h1>Employee Dashboard</h1>
+
+    {# ✅ Show messages only when triggered, not on page reload #}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} fade-out">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if not attendance %}
+        <div class="alert alert-warning">
+            No attendance record for today.
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="mark_attendance" class="btn btn-primary">Mark Attendance</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <h2>Your Assignments</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in assignment_progress %}
+                <tr>
+                    <td>{{ item.assignment.title }}</td>
+                    <td>{{ item.assignment.description }}</td>
+                    <td>{{ item.assignment.deadline }}</td>
+                    <td>{{ item.assignment.status }}</td>
+                    <td>{{ item.latest_progress }}%</td>
+                    <td>
+                        <a href="{% url 'update_assignment_status' item.assignment.id %}" class="btn btn-sm btn-info">Update Status</a>
+                        <a href="{% url 'update_progress' item.assignment.id %}" class="btn btn-sm btn-warning">Update Progress</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+
+    <style>
+        .fade-out {
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .fade-out.hidden {
+            opacity: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fadeOutElements = document.querySelectorAll('.fade-out');
+            fadeOutElements.forEach(element => {
+                setTimeout(() => {
+                    element.classList.add('hidden');
+                    setTimeout(() => {
+                        element.remove();
+                    }, 1000);
+                }, 3000);
+            });
+        });
+    </script>
+{% endblock %}
