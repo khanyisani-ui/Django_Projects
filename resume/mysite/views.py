@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return render(request, 'mysite/index.html')
 
-@csrf_exempt  # Remove this if CSRF protection is enabled in the form
+@csrf_exempt
 def send_message(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -27,7 +28,7 @@ def send_message(request):
                 recipient_list=["khanyilekhanyisani8@gmail.com"], 
                 fail_silently=False,
             )
-            return JsonResponse({"success": "Message sent successfully!"})
+            return HttpResponseRedirect(reverse('index'))  # Redirect to the index page after successful form submission
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
 
