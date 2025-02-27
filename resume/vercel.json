@@ -12,6 +12,10 @@
     ],
     "routes": [
         {
+            "src": "/static/lib/jquery/jquery.min.js",
+            "dest": "/static/lib/jquery/jquery.min.js"
+        },
+        {
             "src": "/static/(.*)",
             "dest": "/static/$1"
         },
